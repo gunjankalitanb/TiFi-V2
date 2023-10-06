@@ -12,7 +12,7 @@ const CreateProduct = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const [quantity, setQuantity] = useState(1);
   const [shipping, setShipping] = useState("");
   const [photo, setPhoto] = useState("");
 
@@ -131,9 +131,10 @@ const CreateProduct = () => {
               <input
                 type="number"
                 value={quantity}
-                placeholder=" Item Quantity"
+                placeholder=" Item Quantity=1"
                 className="form-control"
-                onChange={(e) => setQuantity(e.target.value)}
+                onChange={(e) => setQuantity(1)}
+                disabled
               />
             </div>
             <div className="mb-3">

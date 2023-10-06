@@ -8,6 +8,8 @@ import {
   getOrdersContoller,
   getAllOrdersContoller,
   orderStatusController,
+  forgotPasswordContoller,
+  resetPasswordContoller,
 } from "../controllers/authController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 const router = express.Router();
@@ -16,6 +18,10 @@ router.post("/register", registerController);
 
 //login || post
 router.post("/login", loginContoller);
+
+//forgot password
+router.post("/forgot", forgotPasswordContoller);
+router.post("/reset", resetPasswordContoller);
 
 //test
 router.get("/test", requireSignIn, isAdmin, testController); //middleware added

@@ -60,9 +60,11 @@ const AdminOrders = () => {
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Status</th>
-
+                      <th scope="col">Name</th>
                       <th scope="col">Date</th>
                       {/* <th scope="col">Payment</th> */}
+                      <th scope="col">Phone Number</th>
+                      <th scope="col">Home Address</th>
                       <th scope="col">Quantity</th>
                     </tr>
                   </thead>
@@ -82,10 +84,14 @@ const AdminOrders = () => {
                           ))}
                         </Select>
                       </td>
+                      <td>{o?.name}</td>
                       <td>
                         {moment(o?.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
                       </td>
                       {/* <td>{o?.payment?.success ? "Success" : "Failed"}</td> */}
+
+                      <td>{o?.phoneNumber}</td>
+                      <td>{o?.homeAddress}</td>
                       <td>{o?.products?.length}</td>
                     </tr>
                   </tbody>

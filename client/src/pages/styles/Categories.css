@@ -1,0 +1,59 @@
+/* Categories Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Category Card Styles */
+  .col-md-6 {
+    flex-basis: calc(50% - 20px); /* Two columns per row */
+    margin-bottom: 20px;
+  }
+  
+  /* Category Button Styles */
+  .btn-primary {
+    display: block;
+    width: 100%;
+    background: linear-gradient(45deg, #f06, #9f6);
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    border: none;
+    border-radius: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    transform-origin: center;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Hover Effect */
+  .btn-primary:hover {
+    background: linear-gradient(45deg, #9f6, #f06);
+    transform: scale(1.05);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Text Shadow */
+  .btn-primary::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(0, 0, 0, 0.1);
+    font-size: 32px;
+    font-weight: bold;
+    z-index: -1;
+  }
+  
+  /* Responsive Layout */
+  @media (max-width: 768px) {
+    .col-md-6 {
+      flex-basis: 100%;
+    }
+  }
+  

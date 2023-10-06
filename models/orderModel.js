@@ -27,6 +27,21 @@ const orderSchema = new mongoose.Schema(
     razorpayOrderID: {
       type: String,
     },
+    name: {
+      // Add the Name field
+      type: String,
+      required: true,
+    },
+    homeAddress: {
+      // Add the Home Address field
+      type: String,
+      required: true,
+    },
+    phoneNumber: {
+      // Add the Phone Number field
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

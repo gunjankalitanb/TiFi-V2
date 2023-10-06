@@ -52,13 +52,53 @@
       #000000
     ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   }
-  
-  .forgot-btn {
-    background-color: #434343a4 !important;
-    border: 0 !important;
-  }
-  
-  .forgot-btn:hover {
-    color: white !important;
-  }
-  
+  /* Add this CSS to your AuthStyles.css file */
+.forgot-btn {
+  background-color: #434343a4 !important;
+  border: 0 !important;
+}
+
+.forgot-btn:hover {
+  color: white !important;
+}
+
+/* Style the "New to TiFI? Register Now" link */
+.register-link {
+  display: block;
+  text-align: center;
+  margin-top: 20px; /* Add some space between the links */
+  color: #007bff; /* Change the link color as needed */
+  text-decoration: none;
+}
+
+.register-link:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
+
+/* CartPage.css */
+
+/* Add your CSS styles here */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-button {
+  font-size: 0.7rem;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  background-color: chocolate;
+  color: white;
+  border: none;
+  margin: 0 0.2rem;
+  border-radius: 50%;
+}
+
+.quantity {
+  font-size: 1rem;
+  margin: 0 0.5rem;
+}
+
+/* You can add more styles as needed for your specific design */
+
+

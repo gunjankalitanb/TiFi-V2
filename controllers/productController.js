@@ -493,7 +493,16 @@ export const itemCategoryController = async (req, res) => {
 //-------------------------------------------
 export const orderController = async (req, res) => {
   try {
-    const { order_id, amount, payment_capture, currency, cart } = req.body;
+    const {
+      order_id,
+      amount,
+      payment_capture,
+      currency,
+      cart,
+      name,
+      homeAddress,
+      phoneNumber,
+    } = req.body;
     console.log("Cart Data:", cart);
 
     // Create an instance of the Transaction model
@@ -506,6 +515,10 @@ export const orderController = async (req, res) => {
         currency,
         payment_capture,
       },
+      // Add the input data to the order
+      name,
+      homeAddress,
+      phoneNumber,
     });
     // Save the transaction information to the database
     await newOrder.save();

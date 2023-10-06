@@ -37,7 +37,8 @@ import { CartProvider } from "./context/cart";
 import CartPage from "./pages/CartPage";
 import PaymentPage from "./pages/PaymentPage";
 import AdminOrders from "./pages/Admin/AdminOrders";
-
+import PaymentForm from "./pages/PaymentForm.js";
+import ForgotPassword from "./pages/ForgotPassword";
 const root = createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
@@ -77,9 +78,11 @@ root.render(
               <Route path="admin/users" element={<Users />} />
               <Route path="admin/orders" element={<AdminOrders />} />
             </Route>
-
+            <Route path="/pform" element={<PaymentForm />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/forgot" element={<ForgotPassword />} />
+
             <Route path="/policy" element={<Policy />} />
             <Route path="*" element={<Pagenotfound />} />
             {/* <Route path="/Signup" element={<Signup />} /> */}

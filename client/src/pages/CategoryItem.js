@@ -6,6 +6,7 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
+// import "../pages/styles/CategoryProductStyles.css";
 import toast from "react-hot-toast";
 import { Card } from "antd";
 import axios from "axios";

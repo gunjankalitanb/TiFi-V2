@@ -101,6 +101,9 @@ const Register = () => {
           Submit
         </button>
       </form>
+      <p className="login-link">
+        Already a user? <a href="/login">Login</a>
+      </p>
     </div>
   );
 };

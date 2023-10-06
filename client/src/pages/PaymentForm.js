@@ -1,23 +1,39 @@
 import React, { useState } from "react";
-import Modal from "react-modal";
+import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../context/cart.js";
-import toast from "react-hot-toast";
-
 import axios from "axios";
-import { useAuth } from "../context/auth.js";
+import { useCart } from "../context/cart";
 
-const CheckoutModal = ({ isOpen, onRequestClose, totalAmount }) => {
-  const [street, setStreet] = useState("");
-  const [locality, setLocality] = useState("");
-  const [landmark, setLandmark] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [cart, setCart] = useCart();
-  const [fullName, setFullName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+const PaymentForm = () => {
   const navigate = useNavigate();
   const [auth, setAuth] = useAuth();
+  const [cart, setCart] = useCart();
+  const [name, setName] = useState("");
+  const [homeAddress, setHomeAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
+  //total price
+  const totalPrice = () => {
+    try {
+      let total = 0;
+      cart?.forEach((item) => {
+        total = total + item.price;
+      });
+      const formattedTotal = total.toFixed(2);
+      return formattedTotal.toLocaleString("en-IN", {
+        style: "currency",
+        currency: "INR",
+      });
+    } catch (error) {
+      console.log(error);
+      return "₹0.00"; // Handle errors by returning a default value
+    }
+  };
+
+  const clearCartItemsFromLocalStorage = () => {
+    localStorage.removeItem("cart");
+    setCart([]); // Clear the cart state in your context
+  };
   const loadScript = (src) => {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -31,6 +47,7 @@ const CheckoutModal = ({ isOpen, onRequestClose, totalAmount }) => {
       document.body.appendChild(script);
     });
   };
+
   const handlePayment = async () => {
     let orderId =
       "OD" + Math.floor(Math.random() * Math.floor(Math.random() * Date.now()));
@@ -42,7 +59,7 @@ const CheckoutModal = ({ isOpen, onRequestClose, totalAmount }) => {
       return;
     }
     // Calculate the total amount in paisa (1 INR = 100 paisa)
-    const totalAmountPaisa = Math.round(parseFloat(totalAmount()) * 100);
+    const totalAmountPaisa = Math.round(parseFloat(totalPrice()) * 100);
 
     // Check if the total amount is at least 1 INR
     if (totalAmountPaisa < 100) {
@@ -56,6 +73,9 @@ const CheckoutModal = ({ isOpen, onRequestClose, totalAmount }) => {
       currency: "INR",
       payment_capture: 1,
       cart: cart,
+      name: name, // Add Name to the request
+      homeAddress: homeAddress, // Add Home Address to the request
+      phoneNumber: phoneNumber, // Add Phone Number to the request
     };
     console.log(paymentRes);
 
@@ -115,61 +135,44 @@ const CheckoutModal = ({ isOpen, onRequestClose, totalAmount }) => {
     }
   };
 
-  const clearCartItemsFromLocalStorage = () => {
-    localStorage.removeItem("cart");
-    setCart([]); // Clear the cart state in your context
-  };
-
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      contentLabel="Checkout Modal"
-    >
-      <h2>Checkout</h2>
+    <div className="container mt-5">
+      <h2 className="mb-4">Delivery Address</h2>
       <form>
         <div className="mb-3">
-          <label htmlFor="street" className="form-label">
-            Street
-          </label>
+          <label className="form-label">Name</label>
           <input
             type="text"
             className="form-control"
-            id="street"
-            placeholder="Flat / House no / Floor / Building"
-            value={street}
-            onChange={(e) => setStreet(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="locality" className="form-label">
-            Locality
-          </label>
+          <label className="form-label">Phone Number</label>
           <input
             type="text"
             className="form-control"
-            id="locality"
-            placeholder="Area / Sector / Locality"
-            value={locality}
-            onChange={(e) => setLocality(e.target.value)}
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="landmark" className="form-label">
-            Landmark
-          </label>
-          <input
-            type="text"
+          <label className="form-label">Home Address</label>
+          <textarea
             className="form-control"
-            id="landmark"
-            placeholder="Nearby Landmark"
-            value={landmark}
-            onChange={(e) => setLandmark(e.target.value)}
-          />
+            rows="3"
+            value={homeAddress}
+            onChange={(e) => setHomeAddress(e.target.value)}
+          ></textarea>
         </div>
-        <h4>Total : ₹{totalAmount} </h4>
+        <h4>Total : ₹{totalPrice()} </h4>
         {auth?.token ? (
-          <button className="btn btn-primary" onClick={handlePayment}>
+          <button
+            type="button"
+            className="btn btn-primary mb-2"
+            onClick={handlePayment}
+          >
             Make Payment
           </button>
         ) : (
@@ -186,8 +189,8 @@ const CheckoutModal = ({ isOpen, onRequestClose, totalAmount }) => {
           </button>
         )}
       </form>
-    </Modal>
+    </div>
   );
 };
 
-export default CheckoutModal;
+export default PaymentForm;

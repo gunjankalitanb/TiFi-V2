@@ -2,6 +2,7 @@ import { comparePassword, hashPassword } from "../helpers/authHelper.js";
 import userModel from "../models/userModel.js";
 import JWT from "jsonwebtoken";
 import orderModel from "../models/orderModel.js";
+import nodemailer from "nodemailer";
 
 export const registerController = async (req, res) => {
   try {
@@ -182,7 +183,10 @@ export const getOrdersContoller = async (req, res) => {
     const orders = await orderModel
       .find({ buyer: req.user._id })
       .populate("products", "-photo")
-      .populate("buyer", "name");
+      .populate({
+        path: "buyer",
+        select: "name homeAddress phoneNumber", // Include the desired fields
+      });
 
     res.json(orders);
   } catch (error) {
@@ -200,7 +204,10 @@ export const getAllOrdersContoller = async (req, res) => {
     const orders = await orderModel
       .find({})
       .populate("products", "-photo")
-      .populate("buyer", "name")
+      .populate({
+        path: "buyer",
+        select: "name homeAddress phoneNumber", // Include the desired fields
+      })
       .sort({ createdAt: "-1" });
 
     res.json(orders);
@@ -231,5 +238,66 @@ export const orderStatusController = async (req, res) => {
       message: "Error While Updating Order",
       error,
     });
+  }
+};
+
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: "g6409324@gmail.com",
+    pass: "vilm otnz qyaa dykv",
+  },
+});
+
+export const forgotPasswordContoller = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // Generate a random OTP (e.g., 6-digit number)
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Send the OTP to the user's email address
+    const mailOptions = {
+      from: "g6409324@gmail.com",
+      to: email,
+      subject: "OTP Verification",
+      text: `Your OTP is: ${otp}`,
+    };
+    await transporter.sendMail(mailOptions);
+
+    // Store the OTP and timestamp in the database
+    await userModel.updateOne({ email }, { otp, otpTimestamp: new Date() });
+
+    res.json({ success: true, message: "OTP sent to your email address" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+export const resetPasswordContoller = async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+
+    // Check if OTP matches and is not expired (e.g., within 15 minutes)
+    const user = await userModel.findOne({ email });
+    if (
+      !user ||
+      user.otp !== otp ||
+      user.otpTimestamp < new Date() - 15 * 60 * 1000
+    ) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid OTP or expired" });
+    }
+
+    // Reset the user's password
+    const hashedPassword = await hashPassword(newPassword);
+    await userModel.updateOne({ email }, { password: hashedPassword });
+
+    res.json({ success: true, message: "Password reset successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 };

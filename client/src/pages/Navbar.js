@@ -69,7 +69,7 @@ export const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link to={"/"}>
+          <Link to={"/menu"}>
             <MenuBookIcon />
             Menu
           </Link>

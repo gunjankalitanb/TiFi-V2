@@ -28,7 +28,7 @@ app.use(express.json({ limit: "10mb" }));
 
 //app.use(express.json({ limit: "10mb" }));
 app.use(morgan("dev"));
-app.use(express.static(path.join(__dirname, "./client/build")));
+
 // app.use(express.static(path.join(__dirname, "./client/build")));
 //routes
 
@@ -38,8 +38,8 @@ app.use("/api/v1/Items", productRoutes);
 // app.use("/api/v1/payment", paymentRoutes);
 
 //rest api
-app.use("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "./client/build/index.html "));
+app.get("/", (req, res) => {
+  res.send("<h1>Welcome </h1>");
 });
 //PORT
 const PORT = process.env.PORT || 8080;
