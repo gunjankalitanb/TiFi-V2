@@ -7,7 +7,7 @@
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "sourceType": "module", // Add this line
+        "sourceType": "module"
     },
     "rules": {
         "strict": 2,
