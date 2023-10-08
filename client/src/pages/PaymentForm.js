@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 import { useCart } from "../context/cart";
 
 const PaymentForm = () => {
@@ -46,6 +47,34 @@ const PaymentForm = () => {
       };
       document.body.appendChild(script);
     });
+  };
+  const handleCodPayment = async (req, res) => {
+    try {
+      // Prepare COD order details
+      const codOrderDetails = {
+        name: name + "(COD)",
+        homeAddress,
+        phoneNumber,
+        cart,
+      };
+
+      // Send a POST request to create the COD order
+      const response = await axios.post(
+        `${process.env.REACT_APP_API}/api/v1/Items/payment/cod-order`,
+        codOrderDetails
+      );
+
+      if (response.data.success) {
+        toast.success(res.data.message);
+        clearCartItemsFromLocalStorage();
+        navigate("/dashboard/user/orders");
+      } else {
+        alert("Failed to place COD order.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while placing the COD order.");
+    }
   };
 
   const handlePayment = async () => {
@@ -168,13 +197,22 @@ const PaymentForm = () => {
         </div>
         <h4>Total : ₹{totalPrice()} </h4>
         {auth?.token ? (
-          <button
-            type="button"
-            className="btn btn-primary mb-2"
-            onClick={handlePayment}
-          >
-            Make Payment
-          </button>
+          <div>
+            <button
+              type="button"
+              className="btn btn-success mb-2 ms-2"
+              onClick={handlePayment}
+            >
+              UPI/CARD
+            </button>
+            <button
+              type="button"
+              className="btn btn-success mb-2 ms-2"
+              onClick={handleCodPayment}
+            >
+              Cash On Delivery (COD)
+            </button>
+          </div>
         ) : (
           <button
             type="button"

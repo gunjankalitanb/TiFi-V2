@@ -1,4 +1,5 @@
 import slugify from "slugify";
+import twilio from "twilio";
 import productModel from "../models/productModel.js";
 import categorymodel from "../models/categoryModel.js";
 import fs from "fs";
@@ -13,6 +14,11 @@ const instance = new Razorpay({
   key_id: "rzp_test_ZLwOhCELADQ6s0",
   key_secret: "qSjmGjtoN1p34vqJrKvTL6sx",
 });
+
+const accountSid = "AC3f951d7a7e569098a1cbfa09db1280a0";
+const authToken = "1223282e371b8cd82ad776293ae676c1";
+
+const client = new twilio(accountSid, authToken);
 
 // const razorpay = new Razorpay({
 //   key_id: process.env.RAZORPAY_KEY_ID,
@@ -545,6 +551,8 @@ export const orderController = async (req, res) => {
 
     // Save the updated order to the database
     await newOrder.save();
+    // Send an SMS notification to the admin
+    await sendSMSController();
 
     // Return the order response along with the payment status
     return res.status(200).json({
@@ -557,5 +565,58 @@ export const orderController = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send("Server Error");
+  }
+};
+
+export const codOrderController = async (req, res) => {
+  try {
+    const { cart, name, homeAddress, phoneNumber } = req.body;
+
+    // Calculate the total amount based on items in the cart
+    const totalAmount = cart.reduce((total, item) => total + item.price, 0);
+    // Create a new COD order
+    const codOrder = new Order({
+      products: cart,
+      buyer: req.user._id, // Assuming you have user authentication
+      // status: "Processing", // Set the initial status as 'Processing' or any other suitable status
+      name,
+      homeAddress,
+      phoneNumber,
+    });
+
+    // Save the COD order to the database
+    await codOrder.save();
+    // Send an SMS notification to the admin
+    await sendSMSController();
+    res.status(201).json({
+      success: true,
+      message: "Order placed successfully",
+      order: codOrder,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Error while creating COD order",
+      error: error.message,
+    });
+  }
+};
+
+export const sendSMSController = async (req, res) => {
+  try {
+    const adminPhoneNumber = "+917002178457";
+
+    const message = "New Order Received";
+
+    const sentMessage = await client.messages.create({
+      body: message,
+      from: "+12563056773", // Replace with your Twilio phone number
+      to: adminPhoneNumber,
+    });
+
+    console.log("Admin SMS notification sent successfully:", sentMessage.sid);
+  } catch (error) {
+    console.error("Error sending admin SMS notification:", error);
   }
 };

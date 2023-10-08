@@ -6,6 +6,7 @@ import {
   IconButton,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
@@ -30,6 +31,8 @@ export const Navbar = () => {
   const location = useLocation();
   const isMenuPage = location.pathname === "/menu";
   const categories = useCategory();
+  // Add a media query hook to check screen width
+  const isSmallScreen = useMediaQuery("(max-width: 345px)");
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -137,7 +140,10 @@ export const Navbar = () => {
               color={"Highlight"}
               variant="h6"
               component="div"
-              sx={{ flexGrow: 1 }}
+              sx={{
+                flexGrow: 1,
+                fontSize: "1rem", // Adjust font size as needed
+              }}
             >
               Ti :ফাই
             </Typography>
@@ -192,13 +198,14 @@ export const Navbar = () => {
             </Box>
             <Box sx={{ display: { xs: "block", sm: "block" } }}>
               <ul className="navigation-menu">
-                {!isHomepage && (
+                {!isHomepage && !isSmallScreen && (
                   <>
                     <li className="nav-item dropdown">
                       <Link
                         className="nav-link dropdown-toggle"
                         to={"/categories"}
                         data-bs-toggle="dropdown"
+                        sx={{ fontSize: "1rem" }}
                       >
                         Category
                       </Link>
@@ -224,7 +231,7 @@ export const Navbar = () => {
 
                     <li>
                       <Link to="/dashboard/user/cartpage">
-                        <ShoppingCartIcon />
+                        <ShoppingCartIcon sx={{ fontSize: "0.9rem" }} />
                         {cart?.length}
                       </Link>
                     </li>

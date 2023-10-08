@@ -12,9 +12,7 @@ const CartPage = () => {
   const navigate = useNavigate();
   const [auth, setAuth] = useAuth();
   const [cart, setCart] = useCart();
-  // const [showCheckoutModal, setShowCheckoutModal] = useState(false);
 
-  //total price
   const totalPrice = () => {
     try {
       let total = 0;

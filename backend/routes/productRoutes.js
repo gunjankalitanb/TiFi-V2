@@ -2,6 +2,7 @@ import express from "express";
 
 import { isAdmin, requireSignIn } from "./../middlewares/authMiddleware.js";
 import {
+  codOrderController,
   createItemController,
   deleteItemController,
   getItemController,
@@ -10,6 +11,7 @@ import {
   itemPhotoController,
   orderController,
   searchItemcontroller,
+  sendSMSController,
   updateItemController,
 } from "../controllers/productController.js";
 import formidable from "express-formidable";
@@ -57,6 +59,8 @@ router.put(
 // router.post("/razorpay/payment", requireSignIn, razorpayPaymentController);
 // router.post("/razorpay/order", requireSignIn, razorpayOrderController);
 router.post("/razorpay/order", requireSignIn, orderController);
+router.post("/payment/cod-order", requireSignIn, codOrderController);
+router.post("/send-sms", requireSignIn, sendSMSController);
 
 //token
 // router.get("/braintree/token", braintreeTokenController);

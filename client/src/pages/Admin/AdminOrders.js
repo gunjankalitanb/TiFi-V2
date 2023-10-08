@@ -84,7 +84,14 @@ const AdminOrders = () => {
                           ))}
                         </Select>
                       </td>
-                      <td>{o?.name}</td>
+                      <td>
+                        {o?.name && o?.name.includes("(COD)") ? (
+                          <span style={{ color: "green" }}>{o?.name}</span>
+                        ) : (
+                          o?.name
+                        )}
+                      </td>
+
                       <td>
                         {moment(o?.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
                       </td>

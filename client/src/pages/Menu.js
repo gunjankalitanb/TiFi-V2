@@ -38,18 +38,18 @@ const Menu = () => {
   }, []);
   return (
     <>
-      <SearchInput
-        sx={{
-          display: "flex",
-          m: 2,
-        }}
-      />
+      <div
+        style={{ display: "flex", justifyContent: "center", margin: "16px 0" }}
+      >
+        <SearchInput style={{ width: "100%" }} />
+      </div>
+
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         {items?.map((p) => (
-          <Card key={p._id} sx={{ maxWidth: "390px", display: "flex", m: 2 }}>
+          <Card key={p._id} sx={{ maxWidth: "250px", display: "flex", m: 2 }}>
             <CardActionArea>
               <CardMedia
-                sx={{ minHeight: "400px" }}
+                sx={{ minHeight: "250px" }}
                 component={"img"}
                 src={`${process.env.REACT_APP_API}/api/v1/items/item-photo/${p._id}`}
                 alt={p.name}
