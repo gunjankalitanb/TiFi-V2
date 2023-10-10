@@ -16,7 +16,7 @@ const instance = new Razorpay({
 });
 
 const accountSid = "AC3f951d7a7e569098a1cbfa09db1280a0";
-const authToken = "95323293c10f44a38da22ed9dee40b5f";
+const authToken = "0a09b8b6022b69ef5dade947af701839";
 
 const client = new twilio(accountSid, authToken);
 
