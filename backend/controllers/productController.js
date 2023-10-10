@@ -16,7 +16,7 @@ const instance = new Razorpay({
 });
 
 const accountSid = "AC3f951d7a7e569098a1cbfa09db1280a0";
-const authToken = "1223282e371b8cd82ad776293ae676c1";
+const authToken = "0a09b8b6022b69ef5dade947af701839";
 
 const client = new twilio(accountSid, authToken);
 
@@ -508,6 +508,7 @@ export const orderController = async (req, res) => {
       name,
       homeAddress,
       phoneNumber,
+      paymentMode,
     } = req.body;
     console.log("Cart Data:", cart);
 
@@ -525,6 +526,7 @@ export const orderController = async (req, res) => {
       name,
       homeAddress,
       phoneNumber,
+      paymentMode, // Store the payment mode
     });
     // Save the transaction information to the database
     await newOrder.save();
@@ -570,7 +572,7 @@ export const orderController = async (req, res) => {
 
 export const codOrderController = async (req, res) => {
   try {
-    const { cart, name, homeAddress, phoneNumber } = req.body;
+    const { cart, name, homeAddress, phoneNumber, paymentMode } = req.body;
 
     // Calculate the total amount based on items in the cart
     const totalAmount = cart.reduce((total, item) => total + item.price, 0);
@@ -582,6 +584,7 @@ export const codOrderController = async (req, res) => {
       name,
       homeAddress,
       phoneNumber,
+      paymentMode,
     });
 
     // Save the COD order to the database

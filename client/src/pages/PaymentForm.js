@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import toast from "react-hot-toast";
 import { useCart } from "../context/cart";
+import toast from "react-hot-toast";
 
 const PaymentForm = () => {
   const navigate = useNavigate();
@@ -48,14 +48,15 @@ const PaymentForm = () => {
       document.body.appendChild(script);
     });
   };
-  const handleCodPayment = async (req, res) => {
+  const handleCodPayment = async () => {
     try {
       // Prepare COD order details
       const codOrderDetails = {
-        name: name + "(COD)",
+        name: name,
         homeAddress,
         phoneNumber,
         cart,
+        paymentMode: "COD",
       };
 
       // Send a POST request to create the COD order
@@ -65,7 +66,7 @@ const PaymentForm = () => {
       );
 
       if (response.data.success) {
-        toast.success(res.data.message);
+        toast.success(response.data.message);
         clearCartItemsFromLocalStorage();
         navigate("/dashboard/user/orders");
       } else {
@@ -105,6 +106,7 @@ const PaymentForm = () => {
       name: name, // Add Name to the request
       homeAddress: homeAddress, // Add Home Address to the request
       phoneNumber: phoneNumber, // Add Phone Number to the request
+      paymentMode: "UPI/CARD",
     };
     console.log(paymentRes);
 

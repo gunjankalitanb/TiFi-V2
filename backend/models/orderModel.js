@@ -42,6 +42,10 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    paymentMode: {
+      type: String,
+      enum: ["COD", "UPI/CARD"],
+    },
   },
   { timestamps: true }
 );

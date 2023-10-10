@@ -127,6 +127,89 @@ body {
 
 
 
+
+/* AdminOrders.css */
+/* AdminOrders.css */
+
+/* Style for the order container */
+.admin-order {
+  border: 2px solid #3498db;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Style for the product container within an order */
+.admin-product {
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* Style for the table header */
+.table thead th {
+  background-color: #3498db;
+  color: #fff;
+  text-align: left;
+  padding: 10px 15px;
+}
+
+/* Style for table rows (alternating background colors) */
+.table tbody tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+/* Style for the "Status" dropdown */
+.ant-select {
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  padding: 8px;
+  font-size: 16px;
+  color: #333;
+  margin-top: 5px;
+}
+
+/* Style for selected option in the "Status" dropdown */
+.ant-select-selection-selected-value {
+  color: #3498db;
+  font-weight: bold;
+}
+
+/* Style for the product image */
+.card-img-top {
+  max-width: 100px;
+  max-height: 100px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for the product name */
+.admin-product p {
+  font-weight: bold;
+  margin: 5px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+/* Style for the price */
+.admin-product p.price {
+  color: #3498db;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
 @media screen and (max-width: 600px) {
   /* Adjust modal width for smaller screens */
   .ReactModal__Content {
