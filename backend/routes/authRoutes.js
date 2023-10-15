@@ -10,6 +10,8 @@ import {
   orderStatusController,
   forgotPasswordContoller,
   resetPasswordContoller,
+  getAllUsersController,
+  deleteUserController,
 } from "../controllers/authController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 const router = express.Router();
@@ -22,6 +24,8 @@ router.post("/login", loginContoller);
 //forgot password
 router.post("/forgot", forgotPasswordContoller);
 router.post("/reset", resetPasswordContoller);
+router.get("/allusers", getAllUsersController);
+router.delete("/users/:userId", deleteUserController);
 
 //test
 router.get("/test", requireSignIn, isAdmin, testController); //middleware added

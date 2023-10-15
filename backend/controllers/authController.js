@@ -119,6 +119,42 @@ export const loginContoller = async (req, res) => {
   }
 };
 
+export const getAllUsersController = async (req, res) => {
+  try {
+    const users = await userModel.find();
+    res.status(200).json(users);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while fetching users",
+      error,
+    });
+  }
+};
+export const deleteUserController = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Find the user by ID and remove it from the database
+    const deletedUser = await userModel.findByIdAndRemove(userId);
+
+    if (!deletedUser) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    res
+      .status(200)
+      .json({ success: true, message: "User deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Error while deleting user", error });
+  }
+};
 //test
 export const testController = (req, res) => {
   res.send("Protected Routes");
